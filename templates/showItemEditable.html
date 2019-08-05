@@ -1,0 +1,12 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+<div class="panel panel-primary">
+    <div class="panel-heading">{{item.name}}</div>
+    <div class="panel-body">{{item.description}}</div>
+</div>
+<div>
+<a href='{{url_for('editItem', itemId=item.id)}}'>Edit</a>
+<a href='{{url_for('deleteItem', itemId=item.id)}}'>Delete</a>
+</div>
+{% endblock %}
