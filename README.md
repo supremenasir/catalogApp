@@ -1,9 +1,14 @@
 # Catalog App.
 
-## Setting up the VM
-- On git bash, first a virtual machine by typing 'vagrant up' from the Catalog folder. The pg_config.sh will also run and will install the required dependencies.
-- Once the VM is installed, just type 'vagrant ssh' to login to the VM.
-- Change the path to /vagrant. This will make you land in the Catalog folder.
+## Setting up the server
+### Create user grader
+
+Run Following commands
+- adduser grader
+- sudo usermod -aG sudo grader
+
+### Setting up ports for SSH
+- 
 
 ## How to run the application
 - From the Catalog folder run the database_setup.py

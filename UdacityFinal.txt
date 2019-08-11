@@ -1,0 +1,64 @@
+- port in sshd_config to 2200
+- In manage of AWS, add new setting to allow 2200 port for tcp
+- UFW configure 
+  - sudo ufw allow ssh
+  - sudo ufw allow 2200/tcp
+  - sudo ufw allow www
+  - sudo ufw enable
+- sudo apt-get install postgresql python-psycopg2
+- sudo apt-get install python-sqlalchemy
+- sudo apt-get install python-pip
+- sudo apt-get install python-flask
+- sudo apt-get install python-oauth2client
+- sudo apt-get install python-requests
+- sudo apt-get install python-httplib2
+- sudo apt-get install libapache2-mod-wsgi
+- cd /var/www/
+- mkdir catalogApp
+- sudo nano /var/www/catalogApp/catalogApp.wsgi
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/catalogApp")
+from projectCatalog import app as application
+application.secret_key = 'super_secret_key'
+- sudo nano /etc/apache2/sites-available/CatalogApp.conf
+<VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/catalogApp
+        WSGIScriptAlias / /var/www/catalogApp/catalogApp.wsgi
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+
+- sudo su - postgres
+postgres@ip-172-26-12-211:~$ psql
+create user catalog with password 'pass';
+engine = create_engine('postgresql://catalog:pass@localhost/catalog')
+- Use absolute paths
+- sudo a2dissite 000-default.conf
+- sudo a2ensite CatalogApp.conf
