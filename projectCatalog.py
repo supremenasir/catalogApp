@@ -17,12 +17,14 @@ import requests
 app = Flask(__name__)
 # login_session.clear()
 CLIENT_ID = json.loads(
-    open('client_secrets.json', 'r').read())['web']['client_id']
+    open('/var/www/catalogApp/client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Restaurant Menu Application"
 
 
 # Connect to Database and create database session
-engine = create_engine('sqlite:///catalogwithusers.db')
+#engine = create_engine('sqlite:///catalogwithusers.db')
+engine = create_engine('postgresql://catalog:pass@localhost/catalog')
+
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
