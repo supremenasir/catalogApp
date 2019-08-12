@@ -1,6 +1,6 @@
 # Catalog App.
 ## URL for the hosted app
-http://http://35.157.56.95.xip.io/
+http://35.157.56.95.xip.io/
 
 ## Setting up the server
 
